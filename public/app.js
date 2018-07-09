@@ -23,13 +23,8 @@ $(function() {
   $('.list').on('click', 'span.deleteTodo', function() {
       // get reference on parent element of clicked X item (the list element)
        var $parentLi = $(this).parent();
-      // get todo id, then do DELETE req for todo
-      $.ajax({
-          method: 'DELETE',
-          url: API + '/' + $parentLi.data('id')
-      })
-      // remove dom element
-      $parentLi.remove();
+       deleteTodo($parentLi)
+      
   });
 });
 
@@ -57,4 +52,16 @@ function submitTodo(name) {
         $todoInput.val('');
     })
     .catch(console.error.bind(console))
+}
+
+function deleteTodo($todo) {
+    // get todo id, then do DELETE req for todo
+      $.ajax({
+          method: 'DELETE',
+          url: API + '/' + $todo.data('id')
+      })
+      .done(function() {
+          // remove dom element
+          $todo.remove();
+      })
 }
