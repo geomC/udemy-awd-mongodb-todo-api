@@ -29,7 +29,7 @@ router.post('/', function(req, res) {
     .then(function(newTodo) {
         res
         .status(201)
-        .send(newTodo)
+        .json(newTodo)
     })
     .catch(function(err) {
         res.send(err)
@@ -43,7 +43,25 @@ router.get('/:todoId', function(req, res) { // todoId is a varname for the passe
     .then(function(foundTodo) {
         res
         .status(200)
-        .send(foundTodo)
+        .json(foundTodo)
+    })
+    .catch(function(err) {
+        res.send(err)
+    })
+}); 
+
+// UPDATE TODO ITEM ROUTE
+
+router.post('/:todoId', function(req, res) { 
+   db.Todo.findOneAndUpdate(
+       {_id: req.params.todoId}, 
+       req.body, 
+       {new: true} // pass updated item to success cb
+       )      
+    .then(function(updatedTodo) {
+        res
+        .status(200)
+        .json(updatedTodo)
     })
     .catch(function(err) {
         res.send(err)
